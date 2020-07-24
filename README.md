@@ -64,7 +64,7 @@ This work is licensed under a [Creative Commons Attribution 4.0 International Li
 
 <li>Qiushuo Zheng <a href="mailto:qs_zheng@seu.edu.cn">qs_zheng@seu.edu.cn</a></li>
 
-<li>Jianxiong Zheng <a href="mailto:2498973668@qq.com">qs_zheng@seu.edu.cn</a></li>
+<li>Jianxiong Zheng <a href="mailto:2498973668@qq.com">zjx@seu.edu.cn</a></li>
 
 # Update
 
