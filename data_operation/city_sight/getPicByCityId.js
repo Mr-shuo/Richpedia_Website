@@ -5,8 +5,8 @@ function getPicByCityId(city_id) {
     const picList = [];
     let num = 0;
     picCity.forEach(item => {
-      if (item.tail === city_id) {
-        picList.push(item.head);
+      if (item.t === city_id) {
+        picList.push(item.h);
         num += 1;
       }
     });

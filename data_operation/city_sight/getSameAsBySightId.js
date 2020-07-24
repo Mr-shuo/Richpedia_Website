@@ -8,8 +8,8 @@ function getSameAsBySightId(sight_id)
 {
     const PicList = [];
     picSight.forEach(item => {
-        if (item.tail === sight_id) {
-          PicList.push(item.head);
+        if (item.t === sight_id) {
+          PicList.push(item.h);
         }
       });
     const num = PicList.length < 5? PicList.length:5;

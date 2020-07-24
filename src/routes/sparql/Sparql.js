@@ -1,4 +1,4 @@
-import React, { useEffect,useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import withStyles from 'isomorphic-style-loader/withStyles';
 import s from './Sparql.less';
 import Spinner from '../../components/Spinner/Spinner';
@@ -6,7 +6,7 @@ import HeaderMenu from '../../components/HeaderMenu/HeaderMenu';
 // import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import Alert from '@material-ui/lab/Alert';
+import {Alert,AlertTitle} from '@material-ui/lab';
 import axios from 'axios';
 // import { func } from 'prop-types';
 import Table from '@material-ui/core/Table';
@@ -17,6 +17,9 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import { light } from '@material-ui/core/styles/createPalette';
+import { colors } from '@material-ui/core';
+import { blue } from '@material-ui/core/colors';
 
 // const useStyles = makeStyles((theme) => ({
 //   root: {
@@ -33,17 +36,21 @@ class Sparql extends React.Component {
     this.state = {
       isLoading: true,
       isQuerying: false,
-      message: "Please enter your query code...",
+      num:100,
+      message: "SELECT ?s ?p ?o { ?s ?p ?o . }",
       isClear: false,
       isHidden: true,
       result: [],
       isResult: false,
-      header:[],
-      item:[],
+      isOverflow:false,
+      header: [],
+      item: [],
     };
     this.handleQuery = this.handleQuery.bind(this);
     this.handleClear = this.handleClear.bind(this);
     this.handleMessage = this.handleMessage.bind(this);
+    this.handleExtend = this.handleExtend.bind(this);
+
     // this.handleResult = this.handleResult.bind(this);
   }
   //挂载?
@@ -53,116 +60,149 @@ class Sparql extends React.Component {
     });
   }
 
-  handleQuery()
-  {
+  handleQuery() {
 
-    if(this.state.isClear)
+    if (this.state.isClear) {
+      console.log("You enter query!");
+      this.setState(prevState => (
+        {
+          isHidden: false
+        }
+      ));
+      return;
+    }
+    this.setState(prevState => (
       {
-        console.log("You enter query!");
-        this.setState(prevState => (
-          {
-            isHidden:false
-          }
-        ));
-        return;
+        isHidden: true,
+        isQuerying: true,
+        num:100
+      }
+    ));
+    axios.get('/Richpedia', {
+      params: {
+        query: this.state.message
+      }
+    }).then((response) => {
+      console.log(response);
+      this.handleResult(response);
+      var h = [];
+      for (let i = 0; i < response.data.names.length; i++) {
+        let head;
+        if (i == 0)
+          head = <TableCell key={response.data.names[i].toString()} >{response.data.names[i]}</TableCell>;
+        else
+          head = <TableCell key={response.data.names[i].toString()} align="left" >{response.data.names[i]}</TableCell>;
+        h.push(head);
+        if (i >= this.state.num)
+          break;
+
       }
       this.setState(prevState => (
         {
-          isHidden:true,
-          isQuerying:true
+          header: h
         }
       ));
-      axios.get('/Richpedia',{
-        params: {
-          query: this.state.message
-        }
-      }).then((response)=>
-      {
-        console.log(response);
-        this.handleResult(response);
-        var h =[];
-        for(let i = 0;i<response.data.names.length;i++)
-        {
-          let head;
-          if(i == 0)
-            head = <TableCell key={response.data.names[i].toString()} >{response.data.names[i]}</TableCell>;
-          else
-            head = <TableCell key={response.data.names[i].toString()}align="left" >{response.data.names[i]}</TableCell>;
-            h.push(head);
-          if(i>500)
-            break;
-          
-        }
-        this.setState(prevState => (
-          {
-            header:h
-          }
-        ));
-        var items = [];
-        for(let i =0;i<response.data.values.length;i++)
-        {
-            let item =[];
-            for(let j =0;j<response.data.values[i].length;j++)
-            {
-              let row;
-              if(j==0)
-              {row = <TableCell component="th" scope="row">{response.data.values[i][j]}</TableCell>;}
-              else
-              row = <TableCell align="left" >{response.data.values[i][j]}</TableCell>;
-
-            item.push(row);
+      var items = [];
+      for (let i = 0; i < response.data.values.length; i++) {
+        let item = [];
+        for (let j = 0; j < response.data.values[i].length; j++) {
+          let row;
+          let arr;
+          let str;
+          if (j == 0) {
+            if(response.data.values[i][j] != null)
+            arr = response.data.values[i][j].split('<http://rich.wangmengsd.com/resource/');
+            if (arr!= null && arr.length > 1) {
+              str = arr[1];
+              str = str.split('>')[0];
+              console.log(str);
+              row = <TableCell align="left" ><a href={`/images/${str}`} target="_blank"><img
+              style={{margin:"10px",padding:"10px"}}
+              width="150px"
+              src={`/images/${str}`}
+              alt={str}
+              title={response.data.values[i][j]}
+            /></a></TableCell>
             }
-            const r = <TableRow key={response.data.values[i].toString()}>{item}</TableRow>;
-            items.push(r);
-            if(i>500)
-            break;
-        }
-        this.setState(prevState => (
-          {
-            item:items,
-            isQuerying:false
+            else { row = <TableCell component="th" scope="row">{response.data.values[i][j]}</TableCell>; }
           }
-        ));
-      })
+          else {
+            if(response.data.values[i][j] != null)
+            arr = response.data.values[i][j].split('<http://rich.wangmengsd.com/resource/');
+            if (arr!= null && arr.length > 1) {
+              str = arr[1];
+              str = str.split('>')[0];
+              console.log(str);
+              row = <TableCell align="left" ><a href={`/images/${str}`} target="_blank"><img
+                style={{margin:"10px",padding:"10px"}}
+                width="150px"
+                src={`/images/${str}`}
+                alt={str}
+                title={response.data.values[i][j]}
+              /></a></TableCell>
+            }
+            else {
+              row = <TableCell align="left" >{response.data.values[i][j]}</TableCell>;
+            }
+          }
+
+          item.push(row);
+        }
+        const r = <TableRow key={response.data.values[i].toString()}>{item}</TableRow>;
+        items.push(r);
+        if (i >= this.state.num)
+          break;
+      }
+      this.setState(prevState => (
+        {
+          item: items,
+          isQuerying: false
+        }
+      ));
+    })
       .catch(function (error) {
         console.log(error);
       })
-      .finally(()=>
-      {
+      .finally(() => {
         this.setState(prevState => (
           {
-            isQuerying:false
+            isQuerying: false
+          }
+        ));
+        console.log(this.state.result);
+        if(this.state.num >= this.state.result.values.length)
+        this.setState(prevState => (
+          {
+            isOverflow: true
           }
         ));
       });
   }
 
-  handleResult(res)
-  {
+  handleResult(res) {
     this.setState(prevState => (
       {
-        result:res.data,
-        isResult:true
+        result: res.data,
+        isResult: true
       }
     ));
   }
 
-  handleClear()
-  {
+  handleClear() {
     {
       this.setState(prevState => (
         {
-          isResult: false
+          isResult: false,
+          num:200,
+          isOverflow: false
         }
       ));
     }
-    if(this.state.isClear)
-    {
+    if (this.state.isClear) {
       console.log("It has been cleared!");
       return;
     }
-    else
-    {
+    else {
       this.setState(prevState => (
         {
           message: "",
@@ -173,16 +213,13 @@ class Sparql extends React.Component {
     }
   }
 
-  handleMessage(event)
-  {
+  handleMessage(event) {
     const mes = event.target.value;
     var truth;
-    if(mes.length == 0)
-    {
-     truth = true;
+    if (mes.length == 0) {
+      truth = true;
     }
-    else
-    {
+    else {
       truth = false;
     }
     this.setState(prevState => (
@@ -194,82 +231,165 @@ class Sparql extends React.Component {
     console.log(this.state.message);
   }
 
+  handleExtend(){
+    console.log(this.state.result);
+    for (let i = this.state.num; i < this.state.result.values.length; i++) {
+      let item = [];
+      for (let j = 0; j < this.state.result.values[i].length; j++) {
+        let row;
+        let arr;
+        let str;
+        if (j == 0) {
+          if(this.state.result.values[i][j] != null)
+          arr = this.state.result.values[i][j].split('<http://rich.wangmengsd.com/resource/');
+          if (arr!= null && arr.length > 1) {
+            str = arr[1];
+            str = str.split('>')[0];
+            console.log(str);
+            row = <TableCell align="left" ><a href={`/images/${str}`} target="_blank"><img
+            style={{margin:"10px",padding:"10px"}}
+            width="150px"
+            src={`/images/${str}`}
+            alt={str}
+            title={this.state.result.values[i][j]}
+          /></a></TableCell>
+          }
+          else { row = <TableCell component="th" scope="row">{response.data.values[i][j]}</TableCell>; }
+        }
+        else {
+          if(this.state.result.values[i][j] != null)
+          arr = this.state.result.values[i][j].split('<http://rich.wangmengsd.com/resource/');
+          if (arr!= null && arr.length > 1) {
+            str = arr[1];
+            str = str.split('>')[0];
+            console.log(str);
+            row = <TableCell align="left" ><a href={`/images/${str}`} target="_blank"><img
+              style={{margin:"10px",padding:"10px"}}
+              width="150px"
+              src={`/images/${str}`}
+              alt={str}
+              title={this.state.result.values[i][j]}
+            /></a></TableCell>
+          }
+          else {
+            row = <TableCell align="left" >{this.state.result.values[i][j]}</TableCell>;
+          }
+        }
+
+        item.push(row);
+      }
+      const r = <TableRow key={this.state.result.values[i].toString()}>{item}</TableRow>;
+      this.state.item.push(r);
+      if (i >= this.state.num+100)
+        break;
+    }
+    if (this.state.num +100 >= this.state.result.values.length)
+    this.setState(prevState => (
+      {
+        isOverflow:true
+      }
+    ));
+    else
+    {
+    this.setState(prevState => (
+      {
+        num: this.state.num+100
+      }
+    ),()=>{
+      console.log(this.state.num);
+    });
+  }
+  }
+
 
   getInfo = () => (
-      <div className={s.paraText}>
+    <div className={s.paraText}>
       <p>
         You can use SPARQL language here to query n-triples.
       </p>
     </div>
   );
 
-  getButton = () =>{
+  getButton = () => {
     // const classes = useStyles();
-    return(
-      <div style={{margin:'10px 0px',}}>
-        <Button variant="outlined"  size="large" style={{margin:'0 5px 0 0',}} onClick={this.handleQuery}>Execute</Button>
-        <Button variant="outlined"  size="large" style={{margin:'0 0 0 5px',}} onClick={this.handleClear}>Clear</Button>
+    return (
+      <div style={{ margin: '10px 0px', }}>
+        <Button variant="outlined" size="large" style={{ margin: '0 5px 0 0', }} onClick={this.handleQuery}>Execute</Button>
+        <Button variant="outlined" size="large" style={{ margin: '0 0 0 5px', }} onClick={this.handleClear}>Clear</Button>
       </div>
     );
   }
 
   getTextField = () => (
     <div>
-    <TextField
-          id="standard-multiline-static"
-          label="SPARQL"
-          fullWidth
-          multiline
-          rows={15}
-          value={this.state.message}
-          variant="outlined"
-          ref="myInput"
-          onChange={this.handleMessage}
-          onBlur={this.handleMessage}
-        />
-      </div>
+      <TextField
+        id="standard-multiline-static"
+        label="SPARQL"
+        fullWidth
+        multiline
+        rows={15}
+        value={this.state.message}
+        variant="outlined"
+        ref="myInput"
+        InputProps={{ style: { color: "#7700b3", fontWeight: "100", fontSize: "14px", fontFamily: "sans-serif" } }}
+        onChange={this.handleMessage}
+        onBlur={this.handleMessage}
+      />
+    </div>
   );
 
   getAlert = () => {
-    
-    if(this.state.isHidden)
+
+    if (this.state.isHidden)
       return;
-    return(
+    return (
       <div>
         <Alert severity="info">Please enter your command</Alert>
       </div>
     );
   }
 
-  getResult = () =>{
-    if(this.state.isResult === false)
+  getResult = () => {
+    if (this.state.isResult === false)
       return;
-    
-    return(
+
+    return (
       <div>
-      <TableContainer component={Paper}>
-      <Table size="small" aria-label="a dense table">
-        <TableHead>
-          <TableRow>
-            {this.state.header}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-            {this.state.item}
-        </TableBody>
-      </Table>
-    </TableContainer>
-    </div>
+        <Alert style={{margin:"10px"}} severity="success"><AlertTitle>Querying Success</AlertTitle>There are {this.state.result.values.length} n-triples in our querying results!</Alert>
+        <TableContainer component={Paper}>
+          <Table size="small" aria-label="a dense table" >
+            <TableHead>
+              <TableRow>
+                {this.state.header}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {this.state.item}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        
+      </div>
+    );
+  }
+
+  getMore = () => {
+    if(this.state.isResult === false || this.state.isOverflow === true)
+    return;
+    return (
+      <div>
+        <Button color="primary" onClick={this.handleExtend}>show more...</Button>
+      </div>
     );
   }
 
   getWait = () => {
-    if(this.state.isQuerying === false)
-    return;
-    return(
-        <div>
-          <LinearProgress />
-        </div>
+    if (this.state.isQuerying === false)
+      return;
+    return (
+      <div>
+        <LinearProgress />
+      </div>
     )
   }
 
@@ -285,6 +405,7 @@ class Sparql extends React.Component {
         {this.getAlert()}
         {this.getWait()}
         {this.getResult()}
+        {this.getMore()}
       </div>
     </div>
   );

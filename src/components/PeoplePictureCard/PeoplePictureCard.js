@@ -43,7 +43,7 @@ class PeoplePictureCard extends React.Component {
       picList.push(
         <span key={item} className={s.modalPicContainer}>
           <img
-            src={`/images/${parseInt(picNum, 10)}.jpg`}
+            src={`/image_people/${parseInt(picNum, 10)}.jpg`}
             alt={picNum}
             title={item}
           />
@@ -81,6 +81,8 @@ class PeoplePictureCard extends React.Component {
 
   render() {
     const picNum = this.props.picId.split('rp:')[1];
+    const peopleName = this.props.peopleName;
+    console.log(peopleName);
     return (
       <span key={this.props.key}>
         <span className={s.pictureContainer} onClick={this.showModal}>
@@ -91,7 +93,7 @@ class PeoplePictureCard extends React.Component {
             once
           >
             <img
-              src={`/images/${parseInt(picNum, 10)}.jpg`}
+              src={`/image_people/${parseInt(picNum, 10)}.jpg`}
               alt={picNum}
               title={this.props.picId}
             />

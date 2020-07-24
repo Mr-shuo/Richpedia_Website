@@ -5,8 +5,8 @@ function getPicBySightId(sight_id) {
   const picList = [];
   let num = 0;
   picSight.forEach(item => {
-    if (item.tail === sight_id) {
-      picList.push(item.head);
+    if (item.t === sight_id) {
+      picList.push(item.h);
       num += 1;
     }
   });

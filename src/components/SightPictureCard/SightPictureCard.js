@@ -40,7 +40,7 @@ class SightPictureCard extends React.Component {
     const picList = [];
     pics.forEach(item => {
       //const picNum = item.split('rp:')[1];
-      const picNum = item.split('http://rich.wangmengsd.com/resource/')[1];
+      const picNum = item.split('rps:')[1];
       picList.push(
         <span key={item} className={s.modalPicContainer}>
           <img
@@ -82,7 +82,8 @@ class SightPictureCard extends React.Component {
 
   render() {
     //const picNum = this.props.picId.split('rp:')[1];
-    const picNum = this.props.picId.split('http://rich.wangmengsd.com/resource/')[1];
+    // const picNum = this.props.picId.split('http://rich.wangmengsd.com/resource/')[1];
+    const picNum = this.props.picId.split('rps:')[1];
     return (
       <span key={this.props.key}>
         <span className={s.pictureContainer} onClick={this.showModal}>

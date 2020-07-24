@@ -30,7 +30,7 @@ const RelatedWorks = {
     <div>
       <p>
       Our dataset and Method is mainly based on the following paper：
-        <a href="https://link.springer.com/chapter/10.1007/978-3-030-41407-8_9" target="_Blank">Richpedia: A Comprehensive Multi-modal Knowledge Graph</a>           
+      <li><a href="https://link.springer.com/chapter/10.1007/978-3-030-41407-8_9" target="_Blank">Richpedia: A Comprehensive Multi-modal Knowledge Graph</a></li>           
       </p>
     </div>
   ),

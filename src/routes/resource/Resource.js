@@ -82,6 +82,8 @@ class Resource extends React.Component {
         </div>
         <div>
         <Pagination 
+          siblingCount={2}
+          boundaryCount={2}
           defaultPage={this.state.currentPage}
           count={1000}
           onChange={this.onPageChange}
