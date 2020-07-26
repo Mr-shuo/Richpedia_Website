@@ -24,10 +24,10 @@ const download = {
                 rel="noopener noreferrer"
                 href="https://drive.google.com/open?id=1QVAUWf87v2Lct1YYlygOpphwE5TMlNBg"
               >
-                Image1
+                image_sight&city
               </a>
             </span>
-            <span style={{ display: 'block' }}>
+            {/* <span style={{ display: 'block' }}>
               <a
                 target="_blank"
                 rel="noopener noreferrer"
@@ -44,7 +44,7 @@ const download = {
               >
                 Image3
               </a>
-            </span>
+            </span> */}
           </li>
           <li>
             <span

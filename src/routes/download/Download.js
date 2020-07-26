@@ -23,10 +23,9 @@ class Download extends React.Component {
   getInfo = () => (
       <div className={s.paraText}>
       <p>
-        You can download parts of images and triples of relationship from here
-        through Google Drive. Because the image entity folder is relatively
-        large, we split it into three folders(Image1, Image2, Image3) for
-        download.
+        You can download images of city&sight, images of people and triples of relationship from here
+        through BaiduYun. Because the image entity folder is relatively
+        large, we split it into serveral parts. The extraction code is 0000.
       </p>
       <div>
         <ul>
@@ -40,12 +39,21 @@ class Download extends React.Component {
               <a
                 target="_blank"
                 rel="noopener noreferrer"
-                href="https://drive.google.com/open?id=1QVAUWf87v2Lct1YYlygOpphwE5TMlNBg"
+                href="https://pan.baidu.com/s/1lt-SmWUX5GAmLRNWggDkXQ"
               >
-                Image1
+                City&Sight
               </a>
             </span>
             <span style={{ display: 'block' }}>
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://pan.baidu.com/s/1tUnmlA7Fb90pPZwhxy-jow"
+              >
+                People
+              </a>
+            </span>
+            {/* <span style={{ display: 'block' }}>
               <a
                 target="_blank"
                 rel="noopener noreferrer"
@@ -62,7 +70,7 @@ class Download extends React.Component {
               >
                 Image3
               </a>
-            </span>
+            </span> */}
           </li>
           <li>
             <span
@@ -74,7 +82,7 @@ class Download extends React.Component {
               <a
                 target="_blank"
                 rel="noopener noreferrer"
-                href="https://drive.google.com/drive/folders/1---n-BKB8ZUhTmURh6qzSwNMopzWmCmZ?usp=sharing"
+                href="https://pan.baidu.com/s/1sndHDroLfx__f0mUjH1RGQ"
               >
                 Triples
               </a>

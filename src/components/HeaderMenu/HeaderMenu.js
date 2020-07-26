@@ -105,7 +105,7 @@ class HeaderMenu extends React.Component {
                   className={classnames(s.item, this.state.currentPage['/github'])}
                 >
                   <a
-                    href="https://github.com/wangmengsd/richpedia"
+                    href="https://github.com/Mr-shuo/Richpedia_Website"
                     target="_blank"
                     rel="noopener noreferrer"
                   >

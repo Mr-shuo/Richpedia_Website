@@ -18,8 +18,8 @@ import logoUrl2x from './logo-small@2x.png';
 export default function Header() {
   useStyles(s);
   return (
-    <div className={s.root}>
-      <div className={s.container}>
+    <div className={s.root} >
+      <div className={s.container} >
         <Navigation />
         <Link className={s.brand} to="/">
           <span className={s.brandTxt}>RichPedia</span>

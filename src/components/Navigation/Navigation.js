@@ -39,7 +39,7 @@ export default function Navigation() {
         About
       </a>
       <span className={s.spacer}> | </span>
-      <a className={cx(s.link, s.highlight)} href="https://github.com/wangmengsd/richpedia" target="_blank">
+      <a className={cx(s.link, s.highlight)} href="https://github.com/Mr-shuo/Richpedia_Website" target="_blank">
         Github
       </a>
     </div>

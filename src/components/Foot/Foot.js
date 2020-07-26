@@ -86,7 +86,7 @@ class Foot extends React.Component {
             items: [
               {
                 title: 'Github Page',
-                url: 'https://github.com/StephanieTM/article',
+                url: 'https://github.com/Mr-shuo/Richpedia_Website',
                 description: "项目地址",
                 openExternal: true,
               },
