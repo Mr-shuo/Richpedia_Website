@@ -31,7 +31,7 @@ class Home extends React.Component
 
   getMap = () => {
     return(<div className={s.image}>
-    <a href='https://clustrmaps.com/site/1bb5p'  title='Visit tracker'><img src='//clustrmaps.com/map_v2.png?cl=ffffff&w=a&t=n&d=miROstjyDjjeXJ4tbQfTcOnnJ9yRKr-HFSMmsE4Ik7U'/></a>
+   <a href='https://clustrmaps.com/site/1bb5p'  title='Visit tracker'><img src='//clustrmaps.com/map_v2.png?cl=ffffff&w=600&t=tt&d=miROstjyDjjeXJ4tbQfTcOnnJ9yRKr-HFSMmsE4Ik7U'/></a>
     </div>);
   };
 
