@@ -86,8 +86,8 @@ const friendlyLink = {
             Wikidata
           </a>{' '}
           is becoming an increasingly important knowledge graph in the research
-          community. We collect the KG entities from Wikidata as EKG in
-          <span style={{ fontWeight: '600' }}>Richpedia</span>.
+          community. We collect the KG entities from Wikidata as <span style={{fontFamily: "Georgia"}}>&epsilon;<sub>KG</sub></span> in 
+          <span style={{ fontWeight: '600' }}> Richpedia</span>.
         </li>
         <li>
           <a
@@ -112,6 +112,7 @@ const friendlyLink = {
           >
             Google
           </a>
+          ,{' '}
           <a
             target="_blank"
             rel="noopener noreferrer"

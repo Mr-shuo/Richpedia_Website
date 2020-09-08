@@ -60,16 +60,6 @@ class Foot extends React.Component {
             title: 'Contact',
             items: [
               {
-                title: 'Guilin Qi',
-                url: 'mailto:gqi@seu.edu.cn',
-                openExternal: false,
-              },
-              {
-                title: 'Meng Wang',
-                url: 'mailto:meng.wang@seu.edu.cn',
-                openExternal: false,
-              },
-              {
                 title: 'Qiushuo Zheng',
                 url: 'mailto:qs_zheng@seu.edu.cn',
                 openExternal: false,
@@ -77,6 +67,16 @@ class Foot extends React.Component {
               {
                 title: 'Jianxiong Zheng',
                 url: 'mailto:zhengjianxiong0@google.com',
+                openExternal: false,
+              },
+              {
+                title: 'Guilin Qi',
+                url: 'mailto:gqi@seu.edu.cn',
+                openExternal: false,
+              },
+              {
+                title: 'Meng Wang',
+                url: 'mailto:meng.wang@seu.edu.cn',
                 openExternal: false,
               },
             ],
@@ -109,7 +109,8 @@ class Foot extends React.Component {
             ],
           },
         ]}
-        bottom="Southeast University"
+        bottom= {<div>
+        <a href="https://beian.miit.gov.cn">苏ICP备17011832号</a></div>}
       />
     </div>
     );
