@@ -37,7 +37,7 @@ class Sparql extends React.Component {
       isLoading: true,
       isQuerying: false,
       num:100,
-      message: "SELECT ?s ?p ?o { ?s ?p ?o . }",
+      message: "SELECT ?s ?p ?o { ?s <rpo:sameAs> ?o . }",
       isClear: false,
       isHidden: true,
       result: [],
@@ -116,13 +116,17 @@ class Sparql extends React.Component {
               str = arr[1];
               str = str.split('>')[0];
               console.log(str);
-              row = <TableCell align="left" ><a href={`/images/${str}`} target="_blank"><img
+              if(str.search("jpg")>-1)
+              {row = <TableCell align="left" ><a href={`/images/${str}`} target="_blank"><img
               style={{margin:"10px",padding:"10px"}}
               width="150px"
               src={`/images/${str}`}
               alt={str}
               title={response.data.values[i][j]}
-            /></a></TableCell>
+            /></a></TableCell>}
+            else{
+              row = <TableCell component="th" scope="row">{response.data.values[i][j]}</TableCell>;
+            }
             }
             else { row = <TableCell component="th" scope="row">{response.data.values[i][j]}</TableCell>; }
           }
@@ -133,13 +137,17 @@ class Sparql extends React.Component {
               str = arr[1];
               str = str.split('>')[0];
               console.log(str);
-              row = <TableCell align="left" ><a href={`/images/${str}`} target="_blank"><img
+              if(str.search("jpg")>-1)
+              {row = <TableCell align="left" ><a href={`/images/${str}`} target="_blank"><img
                 style={{margin:"10px",padding:"10px"}}
                 width="150px"
                 src={`/images/${str}`}
                 alt={str}
                 title={response.data.values[i][j]}
-              /></a></TableCell>
+              /></a></TableCell>}
+              else{
+                row = <TableCell align="left" >{response.data.values[i][j]}</TableCell>;
+              }
             }
             else {
               row = <TableCell align="left" >{response.data.values[i][j]}</TableCell>;
@@ -302,13 +310,19 @@ class Sparql extends React.Component {
   }
 
 
-  getInfo = () => (
+  getInfo = () => {
+    var e1 = "SELECT ?s ?p ?o { ?s <rpo:imageof> <http://rich.wangmengsd.com/resource/rps/2061> . }";
+    var e2 = "SELECT ?s ?p ?o { ?s <rpo:sameAs> <http://rich.wangmengsd.com/resource/9.jpg> . }"
+    return(
     <div className={s.paraText}>
       <p>
         You can use SPARQL language here to query n-triples.
+        <div>Examples:</div>
+        <div>{e1}</div>
+        <div>{e2}</div>
       </p>
     </div>
-  );
+  );}
 
   getButton = () => {
     // const classes = useStyles();
