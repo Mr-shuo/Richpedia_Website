@@ -88,7 +88,11 @@ class Sparql extends React.Component {
       var h = [];
       for (let i = 0; i < response.data.names.length; i++) {
         let head;
-        if (i == 0)
+        if (response.data.values[0][i]==null)
+        {
+          ;
+        }
+        else if (i == 0)
           head = <TableCell key={response.data.names[i].toString()} >{response.data.names[i]}</TableCell>;
         else
           head = <TableCell key={response.data.names[i].toString()} align="left" >{response.data.names[i]}</TableCell>;
@@ -109,6 +113,10 @@ class Sparql extends React.Component {
           let row;
           let arr;
           let str;
+          if (response.data.values[i][j]==null) {
+            ;
+          }
+          else{
           if (j == 0) {
             if(response.data.values[i][j] != null)
             arr = response.data.values[i][j].split('<http://rich.wangmengsd.com/resource/');
@@ -155,6 +163,7 @@ class Sparql extends React.Component {
           }
 
           item.push(row);
+        }
         }
         const r = <TableRow key={response.data.values[i].toString()}>{item}</TableRow>;
         items.push(r);
